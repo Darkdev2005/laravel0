@@ -1,15 +1,16 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Support\Facades\Route;
+Route::group(['middleware' => 'auth'], function () {
 
-Route::get('/', function () {
-    return redirect('/dashboard');
-})->middleware('auth');
+    Route::get('/', [MainController::class, 'main'])->name('main');
+    Route::get('/dashboard', [MainController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+    Route::resource(name: 'applications', controller: ApplicationController::class);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -17,4 +18,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
