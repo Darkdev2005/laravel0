@@ -17,5 +17,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/job-test', function () {
+    \Log::info('Route ishladi');
+    return 'route ok';
+});
+
 
 require __DIR__ . '/auth.php';
