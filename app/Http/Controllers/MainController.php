@@ -13,6 +13,8 @@ class MainController extends Controller
      
     public function dashboard()
     {
+     $last_application = auth()->user()->applications()->latest()->first();
+    
     return view('dashboard')->with([    
         'applications'=> Application::latest()->paginate(10),
     ]);

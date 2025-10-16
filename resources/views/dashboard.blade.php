@@ -9,21 +9,25 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    @if(auth()->user()->role_id == 1) 
+
+                    @if(auth()->user()->role->name == 'manager')
                         <span class='text-blue-500 font-bold text-xl'>Received Applications!</span>
-                        
+
                         @foreach ($applications as $application)
-                            <div class="rounded-xl border p-5 mt-5 shadow-md w-9/12 bg-white dark:bg-gray-800 dark:border-gray-700">
-                                <div class="flex w-full items-center justify-between border-b pb-3 border-gray-200 dark:border-gray-700">
+                            <div
+                                class="rounded-xl border p-5 mt-5 shadow-md w-9/12 bg-white dark:bg-gray-800 dark:border-gray-700">
+                                <div
+                                    class="flex w-full items-center justify-between border-b pb-3 border-gray-200 dark:border-gray-700">
                                     <div class="flex items-center space-x-3">
-                                        <div class="h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]"></div>
+                                        <div class="h-8 w-8 rounded-full bg-slate-400 bg-[url('https://i.pravatar.cc/32')]">
+                                        </div>
                                         <div class="text-lg font-bold text-slate-700 dark:text-slate-200">
                                             {{ $application->user->name }}
                                         </div>
                                     </div>
                                     <div class="flex items-center space-x-8">
-                                        <button class="rounded-2xl border bg-neutral-100 dark:bg-gray-700 dark:text-gray-200 px-3 py-1 text-xs font-semibold">
+                                        <button
+                                            class="rounded-2xl border bg-neutral-100 dark:bg-gray-700 dark:text-gray-200 px-3 py-1 text-xs font-semibold">
                                             #{{ $application->id }}
                                         </button>
                                         <div class="text-xs text-neutral-500 dark:text-neutral-400">
@@ -50,11 +54,28 @@
                         @endforeach
                         {{ $applications->links() }}
 
-                    @elseif(auth()->user()->role_id == 2)
+                   @elseif(auth()->user()->role->name == 'client')
+                     @if(session()->has('error'))
+                     <div class="flex bg-red-100 rounded-lg p-4 mb-4 text-sm text-red-700" role="alert">
+                       <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20"
+                          xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                           d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                              clip-rule="evenodd"></path>
+                           </svg>
+                            <div>
+                             <span class="font-medium">Xatolik: </span> {{ session('error') }}
+                          </div>
+                        </div>
+                      @endif
+
+
                         <div class='flex items-center from-slate-900 via-slate-800 to-slate-900 bg-gradient-to-br'>
-                            <div class='w-full max-w-lg px-10 py-8 mx-auto bg-slate-800 rounded-lg shadow-2xl border border-slate-700'>
+                            <div
+                                class='w-full max-w-lg px-10 py-8 mx-auto bg-slate-800 rounded-lg shadow-2xl border border-slate-700'>
                                 <div class='max-w-md mx-auto space-y-6'>
-                                    <form action="{{ route('applications.store') }}" method="POST" enctype="multipart/form-data">
+                                    <form action="{{ route('applications.store') }}" method="POST"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         <h2 class="text-2xl font-bold text-white">Submit your application</h2>
 
@@ -84,4 +105,4 @@
             </div>
         </div>
     </div>
-</x-app-layout> 
+</x-app-layout>
